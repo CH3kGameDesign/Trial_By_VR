@@ -11,9 +11,12 @@ public class BulletVelocity : MonoBehaviour
 
     public static GameObject currentBullet;
 
+    private Vector3 startPos;
+
     // Start is called before the first frame update
     void Start()
     {
+        startPos = transform.position;
         currentBullet = this.gameObject;
         rb = GetComponent<Rigidbody>();
     }
@@ -27,5 +30,11 @@ public class BulletVelocity : MonoBehaviour
         {
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        transform.position = startPos;
+        StateManager.currentState = StateManager.States.Sniper;
     }
 }

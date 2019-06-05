@@ -9,7 +9,9 @@ public class StateManager : MonoBehaviour
     public static States currentState;
 
     public GameObject HeadSet;
-
+    public Transform Controller;
+    public Transform Hand;
+    public Transform snipingHandPos;
     [Space(10)]
     [Header("MenuStuff")]
     public List<GameObject> MenuObjects;
@@ -17,7 +19,6 @@ public class StateManager : MonoBehaviour
     [Space(10)]
     [Header("SniperStuff")]
     public List<GameObject> SniperObjects;
-    public Transform tiltAmount;
 
     [Space(10)]
     [Header("BulletStuff")]
@@ -62,12 +63,15 @@ public class StateManager : MonoBehaviour
             {
                 BulletObjects[i].SetActive(false);
             }
-            if (HeadSet.transform.eulerAngles.z <= -15)
+            if (SniperView.amSniping == true)
             {
-                if (Input.GetMouseButton(0))
+                if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f)
                     Fire();
+                Hand.GetComponent<FollowPosition>().tarPos = snipingHandPos;
             }
-            
+            else
+                Hand.GetComponent<FollowPosition>().tarPos = Controller;
+
         }
         if (currentState == States.Bullet)
         {

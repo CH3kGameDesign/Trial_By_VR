@@ -5,8 +5,7 @@ using TMPro;
 
 public class DebugRotationText : MonoBehaviour
 {
-
-    public Transform HeadSet;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +16,6 @@ public class DebugRotationText : MonoBehaviour
     void Update()
     {
         
-        GetComponent<TextMeshPro>().text = HeadSet.transform.rotation.ToString();
+        GetComponent<TextMeshPro>().text = OVRInput.Get(OVRInput.Axis1D.Any).ToString();
     }
 }
