@@ -17,6 +17,9 @@ public class FollowPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, tarPos.position, Time.deltaTime * speed);
+        speed = BulletVelocity.currentBullet.GetComponent<Rigidbody>().velocity.magnitude;
+        //transform.position = Vector3.Lerp(transform.position, tarPos.position, Time.deltaTime * speed);
+        transform.position = tarPos.position;
+        transform.position -= tarPos.forward * speed/5;
     }
 }

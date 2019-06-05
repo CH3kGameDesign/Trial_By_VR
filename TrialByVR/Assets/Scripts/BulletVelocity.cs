@@ -8,11 +8,13 @@ public class BulletVelocity : MonoBehaviour
     public float acceleration;
 
     private Rigidbody rb;
-    
+
+    public static GameObject currentBullet;
 
     // Start is called before the first frame update
     void Start()
     {
+        currentBullet = this.gameObject;
         rb = GetComponent<Rigidbody>();
     }
 
