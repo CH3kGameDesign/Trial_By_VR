@@ -18,13 +18,28 @@ public class LevelGeneration : MonoBehaviour
         for (int i = 0; i < GridPlaces.Count; i++)
         {
             GameObject GO = Instantiate(GridPrefabs[Random.Range(0, GridPrefabs.Count)], GridPlaces[i]);
+            /*
             for (int j = 0; j < GO.transform.GetChild(0).childCount; j++)
             {
                 SpawnPoints.Add(GO.transform.GetChild(0).GetChild(j));
             }
+            */
         }
         Target = PossibleTargets[Random.Range(0, PossibleTargets.Count)];
         PossibleTargets.Remove(Target);
+
+        GameObject GOSmall = Instantiate(Target, targetPoster);
+        GOSmall.GetComponent<TargetColourManager>().target = true;
+        Invoke("LateStart", 0.0001f);
+    }
+
+    void LateStart ()
+    {
+        GameObject[] SP = GameObject.FindGameObjectsWithTag("EnemySpawn");
+        for (int i = 0; i < SP.Length; i++)
+        {
+            SpawnPoints.Add(SP[i].transform);
+        }
         int TargetSpawn = Random.Range(0, SpawnPoints.Count);
         for (int i = 0; i < SpawnPoints.Count; i++)
         {
@@ -36,8 +51,6 @@ public class LevelGeneration : MonoBehaviour
             else
                 Instantiate(PossibleTargets[Random.Range(0, PossibleTargets.Count)], SpawnPoints[i]);
         }
-        GameObject GOSmall = Instantiate(Target, targetPoster);
-        GOSmall.GetComponent<TargetColourManager>().target = true;
     }
 
     // Update is called once per frame
