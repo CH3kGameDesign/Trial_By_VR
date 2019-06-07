@@ -13,7 +13,7 @@ public class BuildingsSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < buildingSpawnLocations.Length; i++)
+        for(int i = 0; i < buildingSpawnLocations.Length - 1; i++)
         {
             chosenBuilding = Random.Range(0, buildingPrefabs.Length);
             Instantiate(buildingPrefabs[chosenBuilding], buildingSpawnLocations[i].transform.position, buildingSpawnLocations[i].transform.rotation);

@@ -8,6 +8,7 @@ public class FollowPosition : MonoBehaviour
     public Transform tarPos;
     public float speed;
 
+    public bool snap = false;
     public bool followBullet = true;
 
     // Start is called before the first frame update
@@ -24,11 +25,15 @@ public class FollowPosition : MonoBehaviour
             speed = BulletVelocity.currentBullet.GetComponent<Rigidbody>().velocity.magnitude;
             
             transform.position = tarPos.position;
-            transform.position -= tarPos.forward * speed / 5;
+            //transform.position -= tarPos.forward * speed / 5;
+            transform.position -= BulletVelocity.currentBullet.GetComponent<Rigidbody>().velocity / 5;
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, tarPos.position, Time.deltaTime * speed);
+            if (snap == false || (SniperView.amSniping == true && StateManager.holding == StateManager.Object.Sniper))
+                transform.position = Vector3.Lerp(transform.position, tarPos.position, Time.deltaTime * speed);
+            else
+                transform.position = tarPos.position;
         }
     }
 }

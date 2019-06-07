@@ -6,11 +6,21 @@ public class StateManager : MonoBehaviour
 {
     public enum States { Menu, Sniper, Bullet}
     public States startState;
+    public enum Object { Nothing, Sniper, Binocular, Target}
+    public static Object holding;
+
     public static States currentState;
 
     public GameObject HeadSet;
     public Transform Controller;
     public Transform Hand;
+
+    public GameObject bullet;
+    public Transform BulletHolder;
+
+    public GameObject controllerObject;
+    public GameObject SniperObject;
+
     public Transform snipingHandPos;
     [Space(10)]
     [Header("MenuStuff")]
@@ -26,14 +36,18 @@ public class StateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        holding = Object.Nothing;
         currentState = startState;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+            Fire();
         if (currentState == States.Menu)
         {
+            holding = Object.Nothing;
             for (int i = 0; i < MenuObjects.Count; i++)
             {
                 MenuObjects[i].SetActive(true);
@@ -63,18 +77,43 @@ public class StateManager : MonoBehaviour
             {
                 BulletObjects[i].SetActive(false);
             }
-            if (SniperView.amSniping == true)
+            if (holding == Object.Sniper)
             {
-                if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f)
-                    Fire();
+                controllerObject.SetActive(false);
+                SniperObject.SetActive(true);
+                if (SniperView.amSniping == true)
+                {
+                    if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f)
+                        Fire();
+                    Hand.GetComponent<FollowPosition>().tarPos = snipingHandPos;
+                }
+                else
+                    Hand.GetComponent<FollowPosition>().tarPos = Controller;
+            }
+            if (holding == Object.Binocular)
+            {
+                controllerObject.SetActive(false);
+                SniperObject.SetActive(false);
                 Hand.GetComponent<FollowPosition>().tarPos = snipingHandPos;
             }
-            else
+            if (holding == Object.Target)
+            {
+                controllerObject.SetActive(false);
+                SniperObject.SetActive(false);
                 Hand.GetComponent<FollowPosition>().tarPos = Controller;
-
+            }
+            if (holding == Object.Nothing)
+            {
+                controllerObject.SetActive(true);
+                SniperObject.SetActive(false);
+                Hand.GetComponent<FollowPosition>().tarPos = Controller;
+            }
+            if (OVRInput.Get(OVRInput.Button.One))
+                holding = Object.Nothing;
         }
         if (currentState == States.Bullet)
         {
+            holding = Object.Nothing;
             for (int i = 0; i < MenuObjects.Count; i++)
             {
                 MenuObjects[i].SetActive(false);
@@ -88,11 +127,19 @@ public class StateManager : MonoBehaviour
                 BulletObjects[i].SetActive(true);
             }
             HeadSet.GetComponent<FollowPosition>().enabled = true;
+            HeadSet.GetComponent<FollowPosition>().tarPos = BulletHolder.GetChild(0);
+            if (OVRInput.Get(OVRInput.Button.One))
+            {
+                currentState = States.Sniper;
+                Destroy(BulletHolder.GetChild(0).gameObject);
+            }
         }
     }
 
     private void Fire()
     {
+        GameObject GO = Instantiate(bullet, BulletHolder);
+        GO.GetComponent<BulletVelocity>().matchTar = Controller;
         currentState = States.Bullet;
     }
 }

@@ -14,6 +14,7 @@ public class ColourManager : MonoBehaviour
         Color tarCol1 = possibleColours[Random.Range(0, possibleColours.Count)];
         Color tarCol2 = possibleColours[Random.Range(0, possibleColours.Count)];
         Color tarCol3 = possibleColours[Random.Range(0, possibleColours.Count)];
+        TargetColours = new List<Color>();
         TargetColours.Add(tarCol1);
         TargetColours.Add(tarCol2);
         TargetColours.Add(tarCol3);

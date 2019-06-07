@@ -47,6 +47,7 @@ public class LevelGeneration : MonoBehaviour
             {
                 GameObject GO = Instantiate(Target, SpawnPoints[i]);
                 GO.GetComponent<TargetColourManager>().target = true;
+                GO.tag = "Target";
             }
             else
                 Instantiate(PossibleTargets[Random.Range(0, PossibleTargets.Count)], SpawnPoints[i]);
