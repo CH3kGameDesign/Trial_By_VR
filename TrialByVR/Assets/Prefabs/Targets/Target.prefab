@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4766471032508484247}
   - component: {fileID: 1524560907906481282}
   - component: {fileID: 1711314232506081384}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 8270936785462271921}
   - component: {fileID: 5022069350109275775}
   - component: {fileID: 8246709090602641105}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,7 +534,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}
 --- !u!1 &8025043948090639057
@@ -547,7 +547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5384507176572030287}
   - component: {fileID: 8466080147840029954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Target
   m_TagString: Enemy
   m_Icon: {fileID: 0}

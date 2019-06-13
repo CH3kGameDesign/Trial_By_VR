@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 public class BulletVelocity : MonoBehaviour
 {
@@ -14,6 +14,9 @@ public class BulletVelocity : MonoBehaviour
     private Rigidbody rb;
 
     public static GameObject currentBullet;
+    
+    private float rotCount;
+    private float timeCount;
 
     private Vector3 startPos;
 
@@ -37,6 +40,14 @@ public class BulletVelocity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rotCount += Mathf.Abs(Quaternion.Angle(transform.rotation, matchTar.rotation));
+        timeCount += Time.deltaTime;
+
+        float tempRotCount = Mathf.Round(rotCount * 100) / 100;
+        float tempTimeCount = Mathf.Round(timeCount * 100) / 100;
+
+        StateManager.rotCountTextStatic.text = tempRotCount.ToString();
+        StateManager.timeCountTextStatic.text = tempTimeCount.ToString();
         transform.rotation = matchTar.rotation;
         rb.AddForce(transform.forward * acceleration, ForceMode.Acceleration);
 
@@ -57,6 +68,6 @@ public class BulletVelocity : MonoBehaviour
         StateManager.currentState = StateManager.States.Sniper;
         Destroy(this.gameObject);
         if (other.transform.parent.tag == "Target")
-            SceneManager.LoadScene(0);
+            StateManager.win = true;
     }
 }

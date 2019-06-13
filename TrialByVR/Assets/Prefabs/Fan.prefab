@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5780860544016713283}
   - component: {fileID: 5780860544016713288}
   m_Layer: 0
-  m_Name: Prism
+  m_Name: Fan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,7 +637,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}
 --- !u!95 &5780860544016713288

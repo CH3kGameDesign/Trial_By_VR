@@ -42,6 +42,10 @@ public class ObjectHolder : MonoBehaviour
                     childObject.parent = Hand;
                     childObject.localPosition = Vector3.zero;
                     childObject.localRotation = Quaternion.Euler(Vector3.zero);
+                    if (holding == StateManager.Object.Binocular)
+                    {
+                        childObject.GetChild(0).gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -49,7 +53,12 @@ public class ObjectHolder : MonoBehaviour
                     childObject.SetAsFirstSibling();
                     childObject.localPosition = Vector3.zero;
                     childObject.localRotation = Quaternion.Euler(Vector3.zero);
+                    if (holding == StateManager.Object.Binocular)
+                    {
+                        childObject.GetChild(0).gameObject.SetActive(false);
+                    }
                 }
+                
             }
 
             if (StateManager.holding == StateManager.Object.Nothing)

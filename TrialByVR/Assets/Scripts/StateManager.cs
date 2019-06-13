@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class StateManager : MonoBehaviour
 {
@@ -29,6 +31,13 @@ public class StateManager : MonoBehaviour
     [Space(10)]
     [Header("SniperStuff")]
     public List<GameObject> SniperObjects;
+    public List<GameObject> winObjects;
+    public TextMeshPro rotCountText;
+    public TextMeshPro timeCountText;
+    public static TextMeshPro rotCountTextStatic;
+    public static TextMeshPro timeCountTextStatic;
+    public static bool win;
+    private bool triggerPress;
 
     [Space(10)]
     [Header("BulletStuff")]
@@ -36,6 +45,9 @@ public class StateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        win = false;
+        rotCountTextStatic = rotCountText;
+        timeCountTextStatic = timeCountText;
         holding = Object.Nothing;
         currentState = startState;
     }
@@ -83,7 +95,7 @@ public class StateManager : MonoBehaviour
                 SniperObject.SetActive(true);
                 if (SniperView.amSniping == true)
                 {
-                    if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f)
+                    if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f && win == false && triggerPress == false)
                         Fire();
                     Hand.GetComponent<FollowPosition>().tarPos = snipingHandPos;
                 }
@@ -110,6 +122,22 @@ public class StateManager : MonoBehaviour
             }
             if (OVRInput.Get(OVRInput.Button.One))
                 holding = Object.Nothing;
+
+            if (win == true)
+            {
+                for (int i = 0; i < winObjects.Count; i++)
+                {
+                    winObjects[i].SetActive(true);
+                }
+            }
+
+            if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f && win == true && triggerPress == false)
+                SceneManager.LoadScene(0);
+
+            if (OVRInput.Get(OVRInput.Axis1D.Any) >= 0.5f)
+                triggerPress = true;
+            else
+                triggerPress = false;
         }
         if (currentState == States.Bullet)
         {
