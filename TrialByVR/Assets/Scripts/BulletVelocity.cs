@@ -10,6 +10,8 @@ public class BulletVelocity : MonoBehaviour
     public float maxMaxVelocity;
     public float acceleration;
 
+    public GameObject HitSound;
+
     public Transform matchTar;
     private Rigidbody rb;
 
@@ -64,6 +66,7 @@ public class BulletVelocity : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Instantiate(HitSound, transform.position, transform.rotation);
         rb.velocity = Vector3.zero;
         StateManager.currentState = StateManager.States.Sniper;
         Destroy(this.gameObject);

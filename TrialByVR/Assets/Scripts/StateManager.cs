@@ -8,7 +8,7 @@ public class StateManager : MonoBehaviour
 {
     public enum States { Menu, Sniper, Bullet}
     public States startState;
-    public enum Object { Nothing, Sniper, Binocular, Target}
+    public enum Object { Nothing, Sniper, Binocular, Target, Speaker}
     public static Object holding;
 
     public static States currentState;
@@ -34,10 +34,15 @@ public class StateManager : MonoBehaviour
     public List<GameObject> winObjects;
     public TextMeshPro rotCountText;
     public TextMeshPro timeCountText;
+
+    public GameObject ShootSound;
+    public GameObject ReloadSound;
+
     public static TextMeshPro rotCountTextStatic;
     public static TextMeshPro timeCountTextStatic;
     public static bool win;
     private bool triggerPress;
+    private bool bulletActive = false;
 
     [Space(10)]
     [Header("BulletStuff")]
@@ -75,6 +80,11 @@ public class StateManager : MonoBehaviour
         }
         if (currentState == States.Sniper)
         {
+            if (bulletActive == true)
+            {
+                Instantiate(ReloadSound, transform.position, transform.rotation);
+                bulletActive = false;
+            }
             HeadSet.GetComponent<FollowPosition>().enabled = false;
             HeadSet.transform.position = Vector3.zero;
             for (int i = 0; i < MenuObjects.Count; i++)
@@ -108,7 +118,7 @@ public class StateManager : MonoBehaviour
                 SniperObject.SetActive(false);
                 Hand.GetComponent<FollowPosition>().tarPos = snipingHandPos;
             }
-            if (holding == Object.Target)
+            if (holding == Object.Target || holding == Object.Speaker)
             {
                 controllerObject.SetActive(false);
                 SniperObject.SetActive(false);
@@ -166,8 +176,10 @@ public class StateManager : MonoBehaviour
 
     private void Fire()
     {
+        Instantiate(ShootSound, transform.position, transform.rotation);
         GameObject GO = Instantiate(bullet, BulletHolder);
         GO.GetComponent<BulletVelocity>().matchTar = Controller;
         currentState = States.Bullet;
+        bulletActive = true;
     }
 }
