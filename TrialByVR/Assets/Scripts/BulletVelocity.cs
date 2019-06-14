@@ -66,11 +66,25 @@ public class BulletVelocity : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Instantiate(HitSound, transform.position, transform.rotation);
-        rb.velocity = Vector3.zero;
-        StateManager.currentState = StateManager.States.Sniper;
-        Destroy(this.gameObject);
-        if (other.transform.parent.tag == "Target")
-            StateManager.win = true;
+        if (other.gameObject.layer != 13)
+        {
+            Instantiate(HitSound, transform.position, transform.rotation);
+            rb.velocity = Vector3.zero;
+            StateManager.currentState = StateManager.States.Sniper;
+            Destroy(this.gameObject);
+            if (other.transform.parent.tag == "Target")
+                StateManager.win = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 13)
+        {
+            Instantiate(HitSound, transform.position, transform.rotation);
+            rb.velocity = Vector3.zero;
+            StateManager.currentState = StateManager.States.Sniper;
+            Destroy(this.gameObject);
+        }
     }
 }

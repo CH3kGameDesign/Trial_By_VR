@@ -80,11 +80,6 @@ public class StateManager : MonoBehaviour
         }
         if (currentState == States.Sniper)
         {
-            if (bulletActive == true)
-            {
-                Instantiate(ReloadSound, transform.position, transform.rotation);
-                bulletActive = false;
-            }
             HeadSet.GetComponent<FollowPosition>().enabled = false;
             HeadSet.transform.position = Vector3.zero;
             for (int i = 0; i < MenuObjects.Count; i++)
@@ -101,6 +96,11 @@ public class StateManager : MonoBehaviour
             }
             if (holding == Object.Sniper)
             {
+                if (bulletActive == false)
+                {
+                    Instantiate(ReloadSound, transform.position, transform.rotation);
+                    bulletActive = true;
+                }
                 controllerObject.SetActive(false);
                 SniperObject.SetActive(true);
                 if (SniperView.amSniping == true)
@@ -180,6 +180,6 @@ public class StateManager : MonoBehaviour
         GameObject GO = Instantiate(bullet, BulletHolder);
         GO.GetComponent<BulletVelocity>().matchTar = Controller;
         currentState = States.Bullet;
-        bulletActive = true;
+        bulletActive = false;
     }
 }
