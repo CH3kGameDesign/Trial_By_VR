@@ -109,6 +109,7 @@ MonoBehaviour:
   - {fileID: 1947282854417807796, guid: 7e0b42c6eab7a5c4eb069be44ca2eb41, type: 3}
   - {fileID: 5976220365596993761, guid: d2fd57f1100dd43469fe5a5603f38b8b, type: 3}
   - {fileID: 5780860544016713282, guid: b0cc794f683a80a4bb343136fbc498a0, type: 3}
+  - {fileID: 1947282854417807796, guid: c719e3174c261994bb7d3f58651a3112, type: 3}
   chanceToSpawn: 50
 --- !u!1 &2652731007257915167
 GameObject:
